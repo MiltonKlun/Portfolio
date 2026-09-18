@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.server/
+test-results/
+playwright-report/
+research/
+.vercel/
+reports/

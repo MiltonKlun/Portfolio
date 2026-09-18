@@ -1,0 +1,40 @@
+name: Personal portfolio
+
+on:
+  push:
+    branches: [main, deploy/new-portfolio]
+    paths: ['new_portfolio/**', 'vercel.json', '.github/workflows/portfolio.yml']
+  pull_request:
+    branches: [main]
+    paths: ['new_portfolio/**', 'vercel.json', '.github/workflows/portfolio.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: new_portfolio
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: new_portfolio/package-lock.json
+      - run: npm ci
+      - run: npx playwright install chromium
+      - run: npm run build
+      - run: npm test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: personal-portfolio-quality
+          path: |
+            new_portfolio/playwright-report/
+            new_portfolio/test-results/
+          retention-days: 14
