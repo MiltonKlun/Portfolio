@@ -12,3 +12,7 @@ Saved at Milton's request on 18 September 2026. These are deferred suggestions, 
 - Ask Milton which of JMeter/performance testing, Jira, TestRail, SQL, Tableau, and AWS were used professionally, in projects, or only in training before expanding those claims.
 
 Current CV source: `MiltonKlun.pdf`, copied unchanged to `public/Milton_Klun_CV.pdf`. The existing portfolio copy intentionally remains unchanged while these suggestions are deferred.
+
+## Separate engineering follow-up
+
+Local mobile Lighthouse audit before launch (18 September 2026): homepage performance 69; Evalstand and Contact performance 99. All three scored 100 for accessibility, best practices, and SEO. Investigate homepage animation cost while preserving the approved visual design. These are synthetic local scores, not production field measurements. Reports are in the ignored local `reports` folder.

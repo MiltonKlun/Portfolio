@@ -10,7 +10,9 @@ export function ThemeSwitch() {
     const followSystem = () => {
       try {
         if (localStorage.getItem("portfolio-theme")) return;
-      } catch {}
+      } catch {
+        // Follow the system preference when browser storage is unavailable.
+      }
       document.documentElement.dataset.theme = media.matches ? "dark" : "light";
       sync();
     };
@@ -46,7 +48,9 @@ export function ThemeSwitch() {
         document.documentElement.dataset.theme = next ? "dark" : "light";
         try {
           localStorage.setItem("portfolio-theme", next ? "dark" : "light");
-        } catch {}
+        } catch {
+          // Apply the theme for this visit even when it cannot be persisted.
+        }
         setDark(next);
       }}
     >
