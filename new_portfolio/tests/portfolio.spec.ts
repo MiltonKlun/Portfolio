@@ -341,8 +341,9 @@ test("footer selection centers the chapter before opening it", async ({
   await expect(page).toHaveURL("/experience");
 });
 
-test("touch swipe advances the scene", async ({ page, context, isMobile }) => {
+test("touch swipe advances the scene", async ({ page, context, isMobile, browserName }) => {
   test.skip(!isMobile, "Mobile touch gesture.");
+  test.skip(browserName !== "chromium", "Uses a CDP touch session (IMPROVEMENTS.md 4.3).");
   await page.goto("/");
   const session = await context.newCDPSession(page);
   await session.send("Input.dispatchTouchEvent", {

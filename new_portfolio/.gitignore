@@ -6,3 +6,7 @@ playwright-report/
 research/
 .vercel/
 reports/
+
+# Local planning and handoff notes (internal; not published)
+RESUME.md
+IMPROVEMENTS.md
