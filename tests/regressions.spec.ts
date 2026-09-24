@@ -9,7 +9,7 @@ import {
 } from "./helpers";
 
 // Regression tests for defects found in the 24 September 2026 evaluation.
-// Each stays marked as a known defect until its fix lands (see IMPROVEMENTS.md).
+// Each stays marked as a known defect until its fix lands.
 
 test.describe("wheel gestures", () => {
   test.beforeEach(async ({ page, isMobile }) => {

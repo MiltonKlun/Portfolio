@@ -15,7 +15,7 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
-React Bits: Ghost Fibers, adapted Border Glow and Shiny Text
+React Bits: Floating Lines, Web Threads and Light Pillar (adapted shaders), Border Glow and Shiny Text (adapted effects)
 MIT + Commons Clause License Condition v1.0
 
 Copyright (c) 2026 David Haz

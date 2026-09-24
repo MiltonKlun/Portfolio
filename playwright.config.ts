@@ -19,7 +19,7 @@ export default defineConfig({
       use: { viewport: { width: 768, height: 1024 }, hasTouch: true },
     },
     { name: "wide", use: { viewport: { width: 1920, height: 1080 } } },
-    // Opt-in engines until they join CI (IMPROVEMENTS.md 4.4). Baselines are Chromium-only.
+    // Opt-in engines; they are not yet part of CI. Baselines are Chromium-only.
     ...(process.env.CROSS_BROWSER
       ? [
           {
