@@ -1,45 +1,57 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Milton Klun | QA Engineer Portfolio</title>
-  <meta name="description"
-    content="Explore an interactive QA portfolio demonstrating the difference between tested and untested software. Experience bugs firsthand or see flawless execution." />
-  <meta name="author" content="Jane Doe" />
-  <meta name="keywords"
-    content="QA Engineer, Quality Assurance, Software Testing, Portfolio, Bug Detection, Test Automation, Selenium, Cypress" />
-
-  <meta property="og:title" content="Milton Klun | QA Engineer Portfolio" />
-  <meta property="og:description"
-    content="Hiring a Developer builds the features. Hiring Me ensures they actually work. Experience the difference QA makes." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="/MK_Logo_Transp.png" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Milton Klun | QA Engineer Portfolio" />
-  <meta name="twitter:description"
-    content="Interactive portfolio showcasing the impact of quality assurance through contrasting user experiences." />
-  <meta name="twitter:image" content="/MK_Logo_Transp.png" />
-
-  <meta name="theme-color" content="#0a0e1a" />
-  <link rel="icon" type="image/png" href="/MK_Logo_Transp.png" />
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" />
-  </noscript>
-
-  <link rel="manifest" href="/manifest.json" />
-</head>
-
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (() => {
+        let theme;
+        try {
+          theme = localStorage.getItem("portfolio-theme");
+        } catch {}
+        document.documentElement.dataset.theme =
+          theme === "light" || theme === "dark"
+            ? theme
+            : matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#252722" />
+    <meta name="author" content="Milton Klun" />
+    <title>Milton Klun — AI Quality Engineer & SDET</title>
+    <meta
+      name="description"
+      content="Milton Klun. SDET and QA Automation Engineer specializing in AI Quality and LLM evaluation. Explore professional experience, Python tooling, and test engineering projects."
+    />
+    <link rel="canonical" href="https://miltonklun.com/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Milton Klun — AI Quality Engineer & SDET"
+    />
+    <meta
+      property="og:description"
+      content="Engineering confidence in software and AI. Projects in LLM evaluation, Python tooling, and test automation."
+    />
+    <meta property="og:url" content="https://miltonklun.com/" />
+    <meta
+      property="og:image"
+      content="https://miltonklun.com/images/social-preview.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <!--page-head-->
+  </head>
+  <body>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

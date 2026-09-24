@@ -1,10 +1,8 @@
-import { createRoot } from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
-import App from "./App.tsx";
-import "./index.css";
+import { createRoot, hydrateRoot } from "react-dom/client";
+import { App } from "./App";
+import "./styles.css";
 
-createRoot(document.getElementById("root")!).render(
-  <HelmetProvider>
-    <App />
-  </HelmetProvider>
-);
+const root = document.getElementById("root")!;
+const app = <App initialPath={location.pathname} />;
+if (root.querySelector("main")) hydrateRoot(root, app);
+else createRoot(root).render(app);

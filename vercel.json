@@ -1,8 +1,8 @@
 {
   "framework": null,
-  "installCommand": "npm ci --prefix new_portfolio",
-  "buildCommand": "npm run build --prefix new_portfolio",
-  "outputDirectory": "new_portfolio/dist",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
