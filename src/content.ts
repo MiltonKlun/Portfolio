@@ -276,20 +276,20 @@ export const projects: Project[] = [
       "Orders, inventory, payments, and reporting were spread across several systems. Entering and reconciling data by hand took time and created opportunities for errors.",
     decisions: [
       "Use Python automation to connect business workflows.",
-      "Apply a Page Object Model to Playwright UI checks.",
-      "Validate API contracts and income/expense data with focused checks.",
+      "Apply the Page Object Model and BDD principles to Playwright checks of critical e-commerce workflows.",
+      "Validate the Tiendanube and MercadoPago integrations with Postman and contract tests.",
       "Separate business services from Telegram and serverless entry points in Pombot.",
     ],
     flow: [
-      "Commerce · payment APIs",
+      "Tiendanube · MercadoPago",
       "Python services",
       "Sheets · Telegram",
       "Regression checks",
     ],
     quality:
-      "The client experience includes API, unit, integration, and regression checks. The public POM and Pombot repositories provide separate views of test architecture and application behavior.",
+      "For the client, Postman and contract tests covered order registration, inventory synchronization, and webhooks across the two API integrations. Unit and integration tests checked the monthly balance generator’s income and expense figures against the source APIs, and regression checks guarded the Python automation. The public POM and Pombot repositories provide separate views of test architecture and application behavior.",
     outcome:
-      "The work reduced manual entry by approximately 60% across three platforms and saved more than 10 hours of reconciliation per month.",
+      "The Python automation reduced manual data entry by approximately 60% across three platforms. The monthly balance generator saves more than 10 hours of reconciliation per month.",
     limitation:
       "These results come from the client engagement. The public repositories were published later and show related work, rather than an exact snapshot of the client system.",
     lesson:
@@ -350,12 +350,12 @@ export const projects: Project[] = [
 export const experience = [
   {
     company: "Revelo",
-    dates: "Oct 2025 — Mar 2026",
+    dates: "Oct 2025 — Jul 2026",
     role: "AI Quality Engineer · SDET",
     type: "Contract · Remote",
     summary:
-      "Evaluated 500+ LLM outputs against acceptance criteria and edge-case specifications. Executed 50+ acceptance checks in Dockerized environments to support reproducible regression runs across model versions.",
-    tags: "LLM evaluation · Acceptance criteria · Docker",
+      "Evaluated 800+ LLM outputs against acceptance criteria and edge-case specifications, using structured test cases and exploratory evaluation to find quality gaps. Executed 100+ acceptance checks in Dockerized environments through CI/CD-ready pipelines, and ran regression checks across model versions against consistent criteria.",
+    tags: "LLM evaluation · Model regression · Docker",
   },
   {
     company: "PG Original Ind.",
@@ -363,8 +363,8 @@ export const experience = [
     role: "SDET · QA Automation Engineer",
     type: "Contract · Remote",
     summary:
-      "Built a Playwright framework, defined regression checks for Python automation, and validated two REST API integrations. Work reduced manual entry by approximately 60% across three platforms and saved 10+ reconciliation hours per month.",
-    tags: "Python · Playwright · APIs · Financial data",
+      "Built a Playwright framework with the Page Object Model and BDD principles for critical e-commerce workflows. Validated the Tiendanube and MercadoPago API integrations with Postman and contract tests. Defined regression checks for Python automation that cut manual data entry by about 60% across three platforms, and tested a monthly balance generator that saves 10+ reconciliation hours a month.",
+    tags: "Playwright · Python · Contract testing · Financial data",
   },
   {
     company: "Wide",
@@ -372,7 +372,7 @@ export const experience = [
     role: "SDET · QA Automation Engineer",
     type: "Consultant · On-site",
     summary:
-      "Built two financial automation systems across four partner platforms. Implemented 30+ scheduled Pytest and Allure test suites to validate extraction and reporting accuracy.",
+      "Built two financial automation systems with Python and Selenium, centralizing payment and reporting operations across four partner platforms. Implemented 30+ scheduled Pytest suites to validate data extraction and financial report accuracy, with Allure reports making the results available for review.",
     tags: "Python · Selenium · Pytest · Allure",
   },
 ];

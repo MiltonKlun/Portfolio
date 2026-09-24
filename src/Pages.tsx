@@ -189,7 +189,7 @@ export function About() {
       <Intro
         label="About · Milton Klun"
         title={"Quality has always\nbeen part of my work."}
-        text="I’m an SDET and QA Automation Engineer with professional experience in LLM evaluation. My work has taken me from financial and e-commerce automation to testing AI-generated answers."
+        text="I’m an SDET and QA Automation Engineer with more than three years in software quality and automation, including professional LLM evaluation. My work has taken me from financial and e-commerce automation to testing AI-generated answers."
       />
       <div className="about-layout">
         <div className="about-art portrait-frame">
@@ -212,8 +212,9 @@ export function About() {
             checks that help catch problems early.
           </p>
           <p>
-            At Revelo, I evaluated more than 500 LLM outputs and ran acceptance
-            checks in Docker. I’m also building tools to make AI evaluation
+            At Revelo, I evaluated more than 800 LLM outputs, ran acceptance
+            checks in Docker, and checked for regressions across model
+            versions. I’m also building tools to make AI evaluation
             easier. An agent can answer the same question differently each
             time, which makes deciding whether it’s working well an interesting
             testing problem.
@@ -295,17 +296,17 @@ export function Skills() {
       title: "AI quality",
       context: "Professional work · Personal projects",
       description:
-        "I’ve evaluated LLM outputs against acceptance criteria and tested edge cases across model versions. My personal projects explore RAG checks, judge calibration, traces, and agent reliability.",
+        "I’ve evaluated LLM outputs against acceptance criteria and edge-case specifications, combining structured test cases with exploratory evaluation, and run regression checks across model versions. My personal projects explore RAG checks, model judges and their calibration, prompt-injection testing, traces, and agent reliability.",
       tools: "Python · Docker · LangGraph · DeepEval",
       href: "/work/evalharness",
       label: "See EvalHarness",
     },
     {
       title: "Test automation",
-      context: "Professional work",
+      context: "Professional work · Personal projects",
       description:
-        "I build API, integration, and end-to-end checks, using Page Object Models where they help keep UI tests maintainable. I prioritize regression checks by risk and record failures so they can be reproduced.",
-      tools: "Playwright · Pytest · Selenium · Postman · Allure",
+        "I build API, contract, integration, and end-to-end checks, using the Page Object Model and BDD principles to keep UI tests readable and maintainable. I plan regression by risk, explore for what scripted checks miss, run performance tests with JMeter, and manage test cases and defects in TestRail and Jira.",
+      tools: "Playwright · Selenium · Pytest · Postman · JMeter · Allure · Jira · TestRail",
       href: "/work/pg-original",
       label: "See PG Original",
     },
@@ -313,8 +314,8 @@ export function Skills() {
       title: "Engineering & data",
       context: "Professional work · Personal projects",
       description:
-        "I use Python to automate business workflows, connect APIs, and validate financial data. My personal projects also include TypeScript tools and SQLite storage for results and test records.",
-      tools: "Python · JavaScript · TypeScript · SQL · SQLite",
+        "I use Python to automate business workflows, connect APIs, and validate financial data, with SQL and Tableau for querying and reporting on it. My personal projects also include TypeScript tools and SQLite storage for results and test records.",
+      tools: "Python · JavaScript · TypeScript · SQL · SQLite · Tableau",
       href: "/work/cartographer",
       label: "See Cartographer",
     },
@@ -322,8 +323,8 @@ export function Skills() {
       title: "Delivery & reproducibility",
       context: "Professional work · Personal projects",
       description:
-        "I use Docker, versioned test data, and CI workflows to make checks easier to repeat. My project work also includes AWS Lambda for running automation.",
-      tools: "Git · GitHub Actions · Docker · AWS Lambda",
+        "I use Docker, versioned test data, and CI workflows to make checks easier to repeat, and AWS services such as Lambda to run automation.",
+      tools: "Git · GitHub Actions · Docker · AWS",
       href: "/work/evalstand",
       label: "See Evalstand",
     },
