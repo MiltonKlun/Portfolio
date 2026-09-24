@@ -5,6 +5,7 @@ import { AlertTriangle, ShieldCheck, Bug, CheckCircle } from "lucide-react";
 
 import SEO from "@/components/SEO";
 import ParticleGrid from "@/components/ParticleGrid";
+import LightPillar from "@/components/LightPillar";
 import BorderGlow from "@/components/BorderGlow";
 import GradientText from "@/components/GradientText";
 import ShinyText from "@/components/ShinyText";
@@ -16,10 +17,21 @@ const Index = () => {
 
       <ParticleGrid />
 
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.08)_0%,transparent_70%)]" />
-      <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-danger/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-72 h-72 bg-success/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+      <div className="absolute inset-0 z-[2] pointer-events-none" style={{ transform: 'translateY(8%)' }}>
+        <LightPillar
+          topColor="#ff0000"
+          bottomColor="#00ff00"
+          intensity={1}
+          rotationSpeed={0.3}
+          glowAmount={0.002}
+          pillarWidth={3}
+          pillarHeight={0.4}
+          noiseIntensity={0}
+          pillarRotation={89}
+          interactive={false}
+          mixBlendMode="normal"
+          quality="high"
+        />
       </div>
 
       <div className="relative z-10 w-full max-w-4xl text-center">

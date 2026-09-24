@@ -74,3 +74,13 @@ test-results.json
 
 # Planning docs
 IMPROVEMENTS_PLAN.md
+04-QA-PORTFOLIO.md
+To-Do.md
+light.txt
+
+# Agent / tooling context (local-only; read from the filesystem, never needed in the repo)
+CLAUDE.md
+PRODUCT.md
+DESIGN.md
+.impeccable/
+.github/hooks/
