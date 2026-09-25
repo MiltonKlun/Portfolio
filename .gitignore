@@ -1,76 +1,17 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Dependencies
-node_modules
-.pnp
-.pnp.js
-
-# Build Output
-dist
-dist-ssr
+node_modules/
+dist/
+.server/
 test-results/
 playwright-report/
-blob-report/
-clean_comments.cjs
-clean_comments.js
+research/
+.vercel/
+reports/
 
-# Local Environment
-*.local
-.env
-.env.test
-.env.production
+# Local planning and handoff notes (internal; not published)
+RESUME.md
+IMPROVEMENTS.md
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# GSD / Agent / Gemini Folders (Validation & Workflow)
-.agent/
-.gemini/
-.gsd/
-.features-gen/
-
-# GSD / Workflow Artifacts (Root Markdown Files)
+# Internal documentation (kept locally, not published)
+ASSETS.md
+CONTENT_FOLLOW_UP.md
 docs/
-BDD_IMPLEMENTATION_PLAN.md
-BUG_IMPROVEMENT_PROPOSAL.md
-GSD_CHEATSHEET.md
-GSD_USAGE_BRIEF.md
-PHASE_*_STATUS.md
-TEST_FIX_PLAN.md
-TEST_IMPLEMENTATION_PLAN.md
-TEST_RESUME.md
-Walkthrough_*.md
-LOGS.md
-TODO.md
-notes.md
-
-# Keep README.md
-!README.md
-axe-reports/
-
-# AI assistant state
-.claude/
-
-# Bun lockfile (project uses npm)
-bun.lockb
-
-# Test output files
-test-results.json
-
-# Planning docs
-IMPROVEMENTS_PLAN.md

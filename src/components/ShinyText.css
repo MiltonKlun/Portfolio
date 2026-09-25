@@ -1,9 +1,0 @@
-.shiny-text {
-  display: inline-block;
-}
-
-/* Light theme: override to dark colors so text is readable on light backgrounds */
-:root.light .shiny-text {
-  --shiny-color: #374151 !important;
-  --shiny-shine-color: #111827 !important;
-}

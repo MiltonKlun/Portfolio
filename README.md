@@ -1,167 +1,61 @@
-# QA Automation Engineer Portfolio
+# Portfolio
 
-<div align="center">
+[![Personal portfolio](https://github.com/MiltonKlun/Portfolio/actions/workflows/portfolio.yml/badge.svg)](https://github.com/MiltonKlun/Portfolio/actions/workflows/portfolio.yml)
 
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🔴 Untested Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🟢 Verified Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
-| :---: | :---: |
-| Find the hidden bugs | See the validated fixes |
-| <a href="https://www.miltonklun.com/untested"><img src="https://img.shields.io/badge/TRY_UNTESTED-FF4444?style=for-the-badge&logo=codeforces&logoColor=white" alt="Try Untested Mode"/></a> | <a href="https://www.miltonklun.com/tested"><img src="https://img.shields.io/badge/TRY_VERIFIED-22C55E?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Try Verified Mode"/></a> |
+Source for **[miltonklun.com](https://www.miltonklun.com)**: the portfolio of Milton Klun, an SDET and QA Automation Engineer working on AI quality and LLM evaluation. It holds case studies in AI evaluation and test automation, along with the Playwright suite that verifies the site itself.
 
-</div>
+## What's on the site
 
-<div align="center">
-  <img src="https://github.com/MiltonKlun/QA_Portfolio/actions/workflows/tests.yml/badge.svg" alt="Playwright Tests" />
-</div>
+- **About, Experience, Skills:** professional work at Revelo, PG Original, and Wide, plus the tools and practices behind it.
+- **Projects:** six case studies (Evalstand, EvalHarness, Qaizen, Cartographer, PG Original, CSA Pharma). Each covers the problem, engineering decisions, test strategy, results, and stated limitations, with links to the source.
+- **Credentials and CV:** certificates with verification links, and the CV as a PDF to view or download.
 
----
+## How it's built
 
-## 💡 What Is This?
+- React 18, TypeScript, and Vite 7, with hand-written CSS in light and dark themes.
+- The landing page is a five-chapter gallery, navigable by wheel, keyboard, touch, and chapter links. Its WebGL backgrounds are rendered with [OGL](https://github.com/oframe/ogl) and fall back to a still composition for reduced motion.
+- Every route is prerendered to static HTML at build time, so content and links work without JavaScript and unknown paths return real 404 responses. The same step writes the sitemap and structured data.
+- Hosted on Vercel.
 
-An interactive portfolio that **shows** QA skills instead of just listing them. The same website exists in two states — one full of deliberate bugs, and one where every issue has been found, documented, and fixed.
+## How it's tested
 
-This platform serves as a live testing ground verifying proficiency in **End-to-End (E2E) Test Automation**, **Behavior-Driven Development (BDD)**, **CI/CD Pipeline Integration**, and **Agile Defect Management**.
+| Command | What it checks |
+| --- | --- |
+| `npm test` | Playwright end-to-end tests on four Chromium projects: desktop, wide, touch tablet, and mobile. They cover navigation, menu focus, themes, reduced motion, routes and metadata, pages without JavaScript, 404s, CV and credential links, and axe-core WCAG 2.1 A/AA scans in both themes. |
+| `npm run test:visual` | Visual regression against Windows-rendered baselines. |
+| `CROSS_BROWSER=1 npm test` | Adds Firefox and WebKit (desktop and iPhone). |
+| `SHOW_KNOWN_DEFECTS=1 npm test` | Runs `tests/regressions.spec.ts` as ordinary tests, showing the real failure of any defect that isn't fixed yet. |
+| `npm run test:performance` | Lighthouse audits with score thresholds, against a running `npm run preview`. |
+| `node scripts/probe.mjs routes\|wheel\|shader` | Repeatable exploratory measurements: route sweep, wheel-gesture replay, and shader frame rate with long tasks. |
 
----
+CI builds the site and runs the Playwright suite on Windows with Node 22 for every push and pull request to `main`.
 
-## 🏗️ Architecture
+## Run it locally
 
-```mermaid
-graph TB
-    subgraph Frontend["React SPA (Vite + TypeScript)"]
-        Router[React Router] --> Landing[Landing Page]
-        Router --> Untested["/untested — Chaos Mode"]
-        Router --> Tested["/tested — Verified Mode"]
-        Untested --> Layout[PortfolioLayout]
-        Tested --> Layout
-        Layout --> Sidebar[SidebarNav]
-        Layout --> Hero[HeroSection]
-        Layout --> Tech[TechStackSection]
-        Layout --> Projects[ProjectsSection]
-    end
+Requires Node 22.
 
-    subgraph Testing["Playwright Test Suite"]
-        Features[10 Gherkin Features] --> Steps[10 Step Definitions]
-        Steps --> Pages[3 Page Objects]
-        Pages --> Specs[4 Test Specs]
-    end
-
-    subgraph CI["CI/CD"]
-        GH[GitHub Actions] --> PW[Playwright Tests]
-        PW --> Vercel[Vercel Deployment]
-    end
-
-    Testing -.->|validates| Frontend
-    CI -.->|deploys| Frontend
+```sh
+npm ci
+npx playwright install chromium
+npm run dev                        # http://127.0.0.1:5174
+npm run build && npm run preview   # production build with real routing and 404s
+npm test
 ```
 
----
+Development and preview share port 5174, so run one at a time.
 
-## 🛠️ Tech Stack
+## Layout
 
-| Layer | Technology |
-|-------|-----------|
-| **Framework** | React 18 + TypeScript |
-| **Build Tool** | Vite |
-| **Styling** | Tailwind CSS |
-| **Animations** | Framer Motion |
-| **UI Components** | Radix UI (shadcn/ui) |
-| **E2E Testing** | Playwright |
-| **BDD** | Cucumber / Gherkin |
-| **CI/CD** | GitHub Actions |
-| **Hosting** | Vercel |
-| **Analytics** | Vercel Analytics |
+| Path | Contents |
+| --- | --- |
+| `src/content.ts` | Landing chapters, projects, experience, and page metadata. |
+| `src/Pages.tsx`, `src/Credentials.tsx` | Editorial pages, case studies, the CV page, and credentials. |
+| `src/Gallery.tsx`, `src/Navigation.tsx`, `src/App.tsx` | Landing gallery, menu dialog, and client-side routing. |
+| `src/effects/` | Shader backgrounds and their renderer. |
+| `scripts/` | Prerendering, production preview server, Lighthouse audits, and probes. |
+| `tests/` | Playwright tests, helpers, and visual baselines. |
+| `public/` | Fonts, artwork, credentials, and the CV. |
 
----
+## License
 
-## 🧪 Test Strategy
-
-### Page Object Model (POM)
-```
-tests/
-├── pages/          # Page Objects (BasePage, UntestedPage, TestedPage)
-├── specs/          # 4 Playwright test specs
-└── steps/          # 10 BDD step definitions
-```
-
-### BDD Feature Coverage
-```
-qa-artifacts/features/
-├── untested_mode.feature      # Broken behavior scenarios
-├── tested_mode.feature        # Fixed behavior scenarios
-├── bug_reporting.feature      # Interactive bug report modals
-├── bug_hints.feature          # Bug discovery hint system
-├── verified_checks.feature    # Fix verification badges
-├── enhanced_bugs.feature      # Advanced chaos-engineered bugs
-├── accessibility.feature      # WCAG compliance checks
-├── mobile_navigation.feature  # Responsive layout tests
-├── performance.feature        # Lighthouse score targets
-└── visual_regression.feature  # Screenshot comparison tests
-```
-
-### Running Tests
-
-```bash
-# Install dependencies
-npm install
-
-# Run all Playwright tests
-npx playwright test
-
-# Run with UI mode
-npx playwright test --ui
-
-# Run specific scenarios
-npx playwright test --grep "Verified"
-```
-
----
-
-## 📂 Project Structure
-
-```
-qa-showcase/
-├── src/
-│   ├── components/portfolio/   # Page sections (Hero, TechStack, Projects)
-│   ├── components/ui/          # Reusable UI primitives (shadcn/ui)
-│   ├── hooks/                  # Custom React hooks
-│   └── pages/                  # Route components (Index, Untested, Tested)
-├── tests/                      # Playwright E2E tests (POM pattern)
-├── qa-artifacts/               # Gherkin features, test docs, Lighthouse reports
-├── IMPROVEMENTS_PLAN.md        # 6-phase development roadmap
-└── TEST_FIX_PLAN.md            # Bug documentation and fix tracking
-```
-
----
-
-## 🚀 Local Development
-
-```bash
-# Clone and install
-git clone https://github.com/MiltonKlun/QA_Portfolio.git
-cd QA_Portfolio
-npm install
-
-# Start dev server
-npm run dev
-
-# Production build
-npm run build
-npm run preview
-```
-
----
-
-## 📝 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## Author
-
-**Milton Klun**  
-*QA Automation Engineer | AI Quality Testing*
-
-<div align="left">
-  <a href="https://www.linkedin.com/in/milton-klun/"><img src="https://img.shields.io/badge/LINKEDIN-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a><a href="mailto:miltonericklun@gmail.com"><img src="https://img.shields.io/badge/EMAIL-D14836?style=for-the-badge" alt="Email"/></a><a href="https://www.miltonklun.com"><img src="https://img.shields.io/badge/PORTFOLIO-000000?style=for-the-badge" alt="Live Site"/></a>
-</div>
+Copyright © 2026 Milton Klun. All rights reserved. The source is public so it can be read and evaluated, but no part of it, including the code, CV, portrait, credentials, copy, and artwork, may be reused without permission. See [LICENSE](LICENSE). Third-party components and fonts keep their own licenses; see [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt).

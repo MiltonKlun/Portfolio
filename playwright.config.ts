@@ -1,46 +1,45 @@
-import { defineConfig, devices } from '@playwright/test';
-import { defineBddConfig } from 'playwright-bdd';
-
-const testDir = defineBddConfig({
-    features: 'qa-artifacts/features/*.feature',
-    steps: 'tests/steps/*.ts',
-    importTestFrom: 'tests/fixtures/pom-fixtures.ts',
-});
-
+import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
-    testDir,
-    fullyParallel: true,
-    forbidOnly: !!process.env.CI,
-    timeout: 60 * 1000,
-    expect: {
-        timeout: 10 * 1000,
+  testDir: "./tests",
+  fullyParallel: true,
+  workers: process.env.CI ? 2 : 3,
+  retries: process.env.CI ? 1 : 0,
+  reporter: [["list"], ["html", { open: "never" }]],
+  use: {
+    baseURL: "http://127.0.0.1:5174",
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
+  },
+  expect: { toHaveScreenshot: { maxDiffPixelRatio: 0.015 } },
+  projects: [
+    { name: "desktop", use: { viewport: { width: 1440, height: 900 } } },
+    { name: "mobile", use: { ...devices["Pixel 5"] } },
+    {
+      name: "tablet",
+      use: { viewport: { width: 768, height: 1024 }, hasTouch: true },
     },
-    retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 1 : undefined,
-    reporter: [['html', { open: 'never' }]],
-    use: {
-        baseURL: process.env.BASE_URL || 'http://localhost:8080',
-        trace: process.env.CI ? 'retain-on-failure' : 'on-first-retry',
-        screenshot: 'only-on-failure',
-        actionTimeout: 15 * 1000,
-        navigationTimeout: 30 * 1000,
-    },
-
-    projects: [
-        {
-            name: 'chromium',
-            use: { ...devices['Desktop Chrome'] },
-        },
-        {
-            name: 'Mobile Chrome',
-            use: { ...devices['Pixel 5'] },
-        },
-    ],
-
-    webServer: {
-        command: 'npm run dev',
-        url: 'http://localhost:8080',
-        reuseExistingServer: true,
-        timeout: 30000,
-    },
+    { name: "wide", use: { viewport: { width: 1920, height: 1080 } } },
+    // Opt-in engines; they are not yet part of CI. Baselines are Chromium-only.
+    ...(process.env.CROSS_BROWSER
+      ? [
+          {
+            name: "firefox",
+            grepInvert: /@visual/,
+            use: { ...devices["Desktop Firefox"], viewport: { width: 1440, height: 900 } },
+          },
+          {
+            name: "webkit",
+            grepInvert: /@visual/,
+            use: { ...devices["Desktop Safari"], viewport: { width: 1440, height: 900 } },
+          },
+          { name: "webkit-mobile", grepInvert: /@visual/, use: { ...devices["iPhone 14"] } },
+        ]
+      : []),
+  ],
+  webServer: {
+    command: "npm run preview",
+    url: "http://127.0.0.1:5174",
+    reuseExistingServer: !process.env.CI,
+    timeout: 30000,
+  },
 });
