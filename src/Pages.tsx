@@ -7,10 +7,10 @@ import {
   github,
   linkedin,
   projects,
-  type Project,
 } from "./content";
 
 const cvUrl = "/Milton_Klun_CV.pdf?v=52b1f75ec4de";
+const repo = (slug: string) => projects.find((p) => p.slug === slug)!.repo;
 
 export function PageFooter() {
   return (
@@ -53,11 +53,11 @@ export function Work() {
       <Intro
         label="Projects · 01—06"
         title="What I’m building."
-        text="Personal projects and client work in AI evaluation, test automation, and business software. Each case study covers the problem, my approach, and the results so far."
+        text="Personal projects and client work in AI evaluation, test automation, and business software. Each project links to its source code on GitHub."
       />
       <div className="work-grid">
         {projects.map((p, i) => (
-          <a className="work-item" href={`/work/${p.slug}`} key={p.slug}>
+          <a className="work-item" href={p.repo} key={p.slug}>
             <HoverSurface className="work-image">
               <Art name={p.image} eager={i < 2} />
               <span className="work-number">0{i + 1}</span>
@@ -70,115 +70,11 @@ export function Work() {
               <span>{p.category}</span>
             </div>
             <p>{p.intro}</p>
+            <span className="sr-only">(source code on GitHub)</span>
           </a>
         ))}
       </div>
       <PageFooter />
-    </main>
-  );
-}
-
-export function CaseStudy({ project: p }: { project: Project }) {
-  const next = projects[(projects.indexOf(p) + 1) % projects.length];
-  return (
-    <main id="main-content" className="case-page" tabIndex={-1}>
-      <aside className="case-sidebar">
-        <a className="eyebrow breadcrumb" href="/work">
-          Projects <span>· {p.category}</span>
-        </a>
-        <div className="case-name">
-          <h1 tabIndex={-1}>
-            <span>·</span> {p.title}
-          </h1>
-          <p>{p.category}</p>
-        </div>
-        <dl>
-          <dt>Focus</dt>
-          <dd>Quality engineering</dd>
-          <dt>Context</dt>
-          <dd>{p.status}</dd>
-          <dt>Technology</dt>
-          <dd>{p.technologies.join(" · ")}</dd>
-          <dt>Source</dt>
-          <dd>
-            <a href={p.sources[0].url}>View on GitHub ↗</a>
-          </dd>
-        </dl>
-      </aside>
-      <article className="case-content">
-        <div className="case-cover">
-          <Art name={p.image} eager />
-          <p>{p.intro}</p>
-        </div>
-        <section className="case-section">
-          <p className="eyebrow">01 · Context</p>
-          <h2>{p.intro}</h2>
-          <div className="case-columns">
-            <div>
-              <h3>The problem</h3>
-              <p>{p.problem}</p>
-            </div>
-            <div>
-              <h3>My role</h3>
-              <p>{p.role}</p>
-            </div>
-          </div>
-        </section>
-        <section className="case-section architecture-section">
-          <p className="eyebrow">02 · Engineering decisions</p>
-          <h2>How it works.</h2>
-          <ol className="decisions">
-            {p.decisions.map((d, i) => (
-              <li key={d}>
-                <span>0{i + 1}</span>
-                {d}
-              </li>
-            ))}
-          </ol>
-          <figure className="architecture">
-            <figcaption className="eyebrow">Conceptual architecture</figcaption>
-            <ol>
-              {p.flow.map((step) => (
-                <li key={step}>{step}</li>
-              ))}
-            </ol>
-          </figure>
-        </section>
-        <section className="case-section">
-          <p className="eyebrow">03 · Quality strategy</p>
-          <h2>How I tested it.</h2>
-          <p>{p.quality}</p>
-          <div className="evidence-links">
-            {p.sources.map((s) => (
-              <a href={s.url} key={s.url}>
-                {s.label}
-                <span aria-hidden="true">↗</span>
-              </a>
-            ))}
-          </div>
-        </section>
-        <section className="case-section outcome-section">
-          <p className="eyebrow">04 · Result & reflection</p>
-          <h2>Results so far.</h2>
-          <p>{p.outcome}</p>
-          <div className="scope-note">
-            <h3>Scope & limitations</h3>
-            <p>{p.limitation}</p>
-          </div>
-          <h3>What I learned</h3>
-          <p>{p.lesson}</p>
-        </section>
-        <a className="next-project" href={`/work/${next.slug}`}>
-          <Art name={next.image} />
-          <div>
-            <span className="eyebrow">Next project</span>
-            <h2>
-              {next.title} <span aria-hidden="true">↗</span>
-            </h2>
-          </div>
-        </a>
-        <PageFooter />
-      </article>
     </main>
   );
 }
@@ -298,8 +194,8 @@ export function Skills() {
       description:
         "I’ve evaluated LLM outputs against acceptance criteria and edge-case specifications, combining structured test cases with exploratory evaluation, and run regression checks across model versions. My personal projects explore RAG checks, model judges and their calibration, prompt-injection testing, traces, and agent reliability.",
       tools: "Python · Docker · LangGraph · DeepEval",
-      href: "/work/evalharness",
-      label: "See EvalHarness",
+      href: repo("evalharness"),
+      label: "EvalHarness on GitHub",
     },
     {
       title: "Test automation",
@@ -307,8 +203,8 @@ export function Skills() {
       description:
         "I build API, contract, integration, and end-to-end checks, using the Page Object Model and BDD principles to keep UI tests readable and maintainable. I plan regression by risk, explore for what scripted checks miss, run performance tests with JMeter, and manage test cases and defects in TestRail and Jira.",
       tools: "Playwright · Selenium · Pytest · Postman · JMeter · Allure · Jira · TestRail",
-      href: "/work/pg-original",
-      label: "See PG Original",
+      href: repo("pg-original"),
+      label: "PG Original on GitHub",
     },
     {
       title: "Engineering & data",
@@ -316,8 +212,8 @@ export function Skills() {
       description:
         "I use Python to automate business workflows, connect APIs, and validate financial data, with SQL and Tableau for querying and reporting on it. My personal projects also include TypeScript tools and SQLite storage for results and test records.",
       tools: "Python · JavaScript · TypeScript · SQL · SQLite · Tableau",
-      href: "/work/cartographer",
-      label: "See Cartographer",
+      href: repo("cartographer"),
+      label: "Cartographer on GitHub",
     },
     {
       title: "Delivery & reproducibility",
@@ -325,8 +221,8 @@ export function Skills() {
       description:
         "I use Docker, versioned test data, and CI workflows to make checks easier to repeat, and AWS services such as Lambda to run automation.",
       tools: "Git · GitHub Actions · Docker · AWS",
-      href: "/work/evalstand",
-      label: "See Evalstand",
+      href: repo("evalstand"),
+      label: "Evalstand on GitHub",
     },
   ];
   return (

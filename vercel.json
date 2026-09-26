@@ -5,6 +5,14 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/work/evalstand", "destination": "https://github.com/MiltonKlun/Evalstand", "permanent": true },
+    { "source": "/work/evalharness", "destination": "https://github.com/MiltonKlun/EvalHarness", "permanent": true },
+    { "source": "/work/qaizen", "destination": "https://github.com/MiltonKlun/Qaizen", "permanent": true },
+    { "source": "/work/cartographer", "destination": "https://github.com/MiltonKlun/Cartographer", "permanent": true },
+    { "source": "/work/pg-original", "destination": "https://github.com/MiltonKlun/PG_Original_POM", "permanent": true },
+    { "source": "/work/csa-pharma", "destination": "https://github.com/MiltonKlun/CSA_Pharma_Framework", "permanent": true }
+  ],
   "headers": [
     { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
     { "source": "/fonts/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },

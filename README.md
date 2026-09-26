@@ -2,12 +2,12 @@
 
 [![Personal portfolio](https://github.com/MiltonKlun/Portfolio/actions/workflows/portfolio.yml/badge.svg)](https://github.com/MiltonKlun/Portfolio/actions/workflows/portfolio.yml)
 
-Source for **[miltonklun.com](https://www.miltonklun.com)**: the portfolio of Milton Klun, an SDET and QA Automation Engineer working on AI quality and LLM evaluation. It holds case studies in AI evaluation and test automation, along with the Playwright suite that verifies the site itself.
+Source for **[miltonklun.com](https://www.miltonklun.com)**: the portfolio of Milton Klun, an SDET and QA Automation Engineer working on AI quality and LLM evaluation. It presents projects in AI evaluation and test automation, along with the Playwright suite that verifies the site itself.
 
 ## What's on the site
 
 - **About, Experience, Skills:** professional work at Revelo, PG Original, and Wide, plus the tools and practices behind it.
-- **Projects:** six case studies (Evalstand, EvalHarness, Qaizen, Cartographer, PG Original, CSA Pharma). Each covers the problem, engineering decisions, test strategy, results, and stated limitations, with links to the source.
+- **Projects:** Evalstand, EvalHarness, Qaizen, Cartographer, PG Original, and CSA Pharma. Each links to its source code on GitHub.
 - **Credentials and CV:** certificates with verification links, and the CV as a PDF to view or download.
 
 ## How it's built
@@ -21,7 +21,7 @@ Source for **[miltonklun.com](https://www.miltonklun.com)**: the portfolio of Mi
 
 | Command | What it checks |
 | --- | --- |
-| `npm test` | Playwright end-to-end tests on four Chromium projects: desktop, wide, touch tablet, and mobile. They cover navigation, menu focus, themes, reduced motion, routes and metadata, pages without JavaScript, 404s, CV and credential links, and axe-core WCAG 2.1 A/AA scans in both themes. |
+| `npm test` | Playwright end-to-end tests on four Chromium projects: desktop, wide, touch tablet, and mobile. They cover navigation, menu focus, themes, reduced motion, routes and metadata, pages without JavaScript, 404s and redirects, project, CV, and credential links, and axe-core WCAG 2.1 A/AA scans in both themes. |
 | `npm run test:visual` | Visual regression against Windows-rendered baselines. |
 | `CROSS_BROWSER=1 npm test` | Adds Firefox and WebKit (desktop and iPhone). |
 | `SHOW_KNOWN_DEFECTS=1 npm test` | Runs `tests/regressions.spec.ts` as ordinary tests, showing the real failure of any defect that isn't fixed yet. |
@@ -49,7 +49,7 @@ Development and preview share port 5174, so run one at a time.
 | Path | Contents |
 | --- | --- |
 | `src/content.ts` | Landing chapters, projects, experience, and page metadata. |
-| `src/Pages.tsx`, `src/Credentials.tsx` | Editorial pages, case studies, the CV page, and credentials. |
+| `src/Pages.tsx`, `src/Credentials.tsx` | Editorial pages, the projects grid, the CV page, and credentials. |
 | `src/Gallery.tsx`, `src/Navigation.tsx`, `src/App.tsx` | Landing gallery, menu dialog, and client-side routing. |
 | `src/effects/` | Shader backgrounds and their renderer. |
 | `scripts/` | Prerendering, production preview server, Lighthouse audits, and probes. |

@@ -4,14 +4,13 @@ import { Header, Navigation, type Overlay } from "./Navigation";
 import {
   About,
   Skills,
-  CaseStudy,
   Contact,
   CV,
   Experience,
   NotFound,
   Work,
 } from "./Pages";
-import { pageInfo, projects } from "./content";
+import { pageInfo } from "./content";
 
 export function App({ initialPath = "/" }: { initialPath?: string }) {
   const [path, setPath] = useState(initialPath.replace(/\/$/, "") || "/");
@@ -19,7 +18,6 @@ export function App({ initialPath = "/" }: { initialPath?: string }) {
   const [leaving, setLeaving] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const close = useCallback(() => setOverlay(null), []);
-  const project = projects.find((p) => path === `/work/${p.slug}`);
   const gallery = path === "/";
 
   useEffect(() => {
@@ -114,16 +112,11 @@ export function App({ initialPath = "/" }: { initialPath?: string }) {
     document
       .querySelector('meta[property="og:url"]')
       ?.setAttribute("content", `https://miltonklun.com${path}`);
-    document.body.dataset.page = gallery
-      ? "gallery"
-      : project
-        ? "case"
-        : path.slice(1);
-  }, [path, gallery, project]);
+    document.body.dataset.page = gallery ? "gallery" : path.slice(1);
+  }, [path, gallery]);
 
   let page;
   if (gallery) page = <Gallery blocked={!!overlay} />;
-  else if (project) page = <CaseStudy project={project} />;
   else
     switch (path) {
       case "/about":
@@ -153,7 +146,7 @@ export function App({ initialPath = "/" }: { initialPath?: string }) {
         Skip to content
       </a>
       <div
-        className={`app ${project ? "has-sidebar" : ""} ${path === "/contact" ? "is-contact" : ""}`}
+        className={`app ${path === "/contact" ? "is-contact" : ""}`}
       >
         <Header gallery={gallery || path === "/contact"} open={setOverlay} />
         <div
