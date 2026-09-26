@@ -445,13 +445,21 @@ test("projects link to their GitHub repositories, and old project pages redirect
   }
 });
 
-test("site icons are declared and served with the right types", async ({ page, request }) => {
+test("site icons and the social preview image are served", async ({ page, request }) => {
   await page.goto("/");
   const icons = page.locator('link[rel="icon"], link[rel="apple-touch-icon"]');
   await expect(icons).toHaveCount(3);
   for (const href of await icons.evaluateAll((links) => links.map((l) => l.getAttribute("href")!))) {
     const response = await request.get(href);
     expect(response.status(), href).toBe(200);
-    expect(response.headers()["content-type"], href).toMatch(/image\/(svg\+xml|x-icon|png)/);
+    expect(response.headers()["content-type"], href).toMatch(/image\/(svg\+xml|vnd\.microsoft\.icon|png)/);
   }
+  const preview = new URL(
+    (await page.locator('meta[property="og:image"]').getAttribute("content"))!,
+  );
+  const image = await request.get(preview.pathname + preview.search);
+  expect(image.status()).toBe(200);
+  expect(image.headers()["content-type"]).toBe("image/png");
+  const png = await image.body();
+  expect([png.readUInt32BE(16), png.readUInt32BE(20)]).toEqual([1200, 630]);
 });
