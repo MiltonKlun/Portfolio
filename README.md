@@ -52,7 +52,7 @@ Development and preview share port 5174, so run one at a time.
 | `src/Pages.tsx`, `src/Credentials.tsx` | Editorial pages, the projects grid, the CV page, and credentials. |
 | `src/Gallery.tsx`, `src/Navigation.tsx`, `src/App.tsx` | Landing gallery, menu dialog, and client-side routing. |
 | `src/effects/` | Shader backgrounds and their renderer. |
-| `scripts/` | Prerendering, production preview server, Lighthouse audits, and probes. |
+| `scripts/` | Prerendering, production preview server, Lighthouse audits, probes, and the social preview image generator. |
 | `tests/` | Playwright tests, helpers, and visual baselines. |
 | `public/` | Fonts, artwork, credentials, and the CV. |
 
