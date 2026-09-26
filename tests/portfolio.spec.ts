@@ -444,3 +444,14 @@ test("projects link to their GitHub repositories, and old project pages redirect
     expect(response.headers().location).toBe(project.repo);
   }
 });
+
+test("site icons are declared and served with the right types", async ({ page, request }) => {
+  await page.goto("/");
+  const icons = page.locator('link[rel="icon"], link[rel="apple-touch-icon"]');
+  await expect(icons).toHaveCount(3);
+  for (const href of await icons.evaluateAll((links) => links.map((l) => l.getAttribute("href")!))) {
+    const response = await request.get(href);
+    expect(response.status(), href).toBe(200);
+    expect(response.headers()["content-type"], href).toMatch(/image\/(svg\+xml|x-icon|png)/);
+  }
+});
