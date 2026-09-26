@@ -11,7 +11,7 @@ let failed = false;
 try {
   for (const [path, name] of [
     ["/", "home"],
-    ["/work/evalstand", "evalstand"],
+    ["/work", "work"],
     ["/contact", "contact"],
   ]) {
     const result = await lighthouse(`http://127.0.0.1:5174${path}`, {

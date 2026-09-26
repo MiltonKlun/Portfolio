@@ -19,6 +19,8 @@ const mime = {
   ".json": "application/json",
   ".txt": "text/plain",
 };
+// Mirror the hosting redirects so local tests see production behavior.
+const { redirects = [] } = JSON.parse(await readFile("vercel.json", "utf8"));
 const server = createServer(async (req, res) => {
   let pathname;
   try {
@@ -27,6 +29,17 @@ const server = createServer(async (req, res) => {
     );
   } catch {
     res.writeHead(400).end();
+    return;
+  }
+  const redirect = redirects.find(
+    (r) => r.source === (pathname.replace(/\/$/, "") || "/"),
+  );
+  if (redirect) {
+    res
+      .writeHead(redirect.permanent ? 308 : 307, {
+        Location: redirect.destination,
+      })
+      .end();
     return;
   }
   const target = resolve(root, `.${pathname}`);

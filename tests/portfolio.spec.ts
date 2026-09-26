@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { readFileSync } from "node:fs";
+import { projects } from "../src/content";
 
 test("portrait and credentials have accessible, working source links", async ({ page, request }) => {
   await page.goto("/about");
@@ -116,7 +118,6 @@ test("dark theme remains accessible across editorial pages and menu", async ({
     "/about",
     "/experience",
     "/work",
-    "/work/evalstand",
     "/skills",
   ]) {
     await page.goto(route);
@@ -167,14 +168,12 @@ test("identity, chapter click, keyboard, progress, and history", async ({
     .getByRole("link", { name: "Projects", exact: true })
     .click();
   await expect(page).toHaveURL("/work");
-  await page.getByRole("link", { name: /Evalstand/ }).click();
-  await expect(page).toHaveURL("/work/evalstand");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Evalstand",
+    "What I’m building.",
   );
   await page.goBack();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "What I’m building.",
+    "Quality,",
   );
 });
 
@@ -237,12 +236,7 @@ test("routes have readable content, correct metadata, and no overflow", async ({
     "/skills",
     "/contact",
     "/work",
-    "/work/evalstand",
-    "/work/evalharness",
-    "/work/qaizen",
-    "/work/cartographer",
-    "/work/pg-original",
-    "/work/csa-pharma",
+    "/cv",
   ]) {
     const response = await page.goto(route);
     expect(response?.status()).toBe(200);
@@ -284,7 +278,7 @@ test("reduced motion keeps chapters, menu, and project content accessible", asyn
 test("WCAG checks cover chapters, menu, case study, contact, and skills", async ({
   page,
 }) => {
-  for (const route of ["/", "/work/evalstand", "/contact", "/skills"]) {
+  for (const route of ["/", "/work", "/contact", "/skills"]) {
     await page.goto(route);
     await page.waitForTimeout(800);
     const result = await new AxeBuilder({ page })
@@ -312,13 +306,14 @@ test("static HTML includes primary evidence without JavaScript", async ({
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto(`${baseURL}/work/evalstand`);
+  await page.goto(`${baseURL}/work`);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Evalstand",
+    "What I’m building.",
   );
-  await expect(
-    page.getByRole("link", { name: "Report honesty tests" }),
-  ).toBeVisible();
+  await expect(page.getByRole("link", { name: /Evalstand/ })).toHaveAttribute(
+    "href",
+    "https://github.com/MiltonKlun/Evalstand",
+  );
   await context.close();
 });
 
@@ -378,7 +373,7 @@ test("removed routes and unknown paths return 404", async ({ request }) => {
   }
 });
 
-test("@visual gallery and detail layout", async ({ page }) => {
+test("@visual gallery and editorial layout", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
@@ -390,9 +385,9 @@ test("@visual gallery and detail layout", async ({ page }) => {
   await expect(page).toHaveScreenshot("experience-chapter.png", {
     animations: "disabled",
   });
-  await page.goto("/work/evalstand");
+  await page.goto("/work");
   await page.evaluate(() => document.fonts.ready);
-  await expect(page).toHaveScreenshot("case-study.png", {
+  await expect(page).toHaveScreenshot("projects.png", {
     animations: "disabled",
   });
 });
@@ -407,7 +402,7 @@ test("clean menu and aligned quotation footer", async ({ page }) => {
   await expect(menu.getByText(/Bah?a Blanca/)).toHaveCount(0);
   await expect(menu.getByRole("link", { name: "Email Milton" })).toBeVisible();
   await page.keyboard.press("Escape");
-  for (const route of ["/about", "/work/evalstand"]) {
+  for (const route of ["/about", "/work"]) {
     await page.goto(route);
     const footer = page.locator(".page-footer");
     await footer.scrollIntoViewIfNeeded();
@@ -417,5 +412,35 @@ test("clean menu and aligned quotation footer", async ({ page }) => {
       const boxes = await footer.locator(":scope > *").evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return r.y + r.height / 2; }));
       expect(Math.max(...boxes) - Math.min(...boxes)).toBeLessThan(2);
     }
+  }
+});
+
+test("projects link to their GitHub repositories, and old project pages redirect there", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/work");
+  const cards = page.locator(".work-item");
+  await expect(cards).toHaveCount(projects.length);
+  for (const [i, project] of projects.entries()) {
+    await expect(cards.nth(i)).toHaveAttribute("href", project.repo);
+    await expect(cards.nth(i)).toHaveAccessibleName(/source code on GitHub/);
+  }
+  await page.goto("/skills");
+  for (const link of await page.locator(".skills .text-link").all())
+    expect(projects.map((p) => p.repo)).toContain(await link.getAttribute("href"));
+  // Hosting redirects and project data must name the same repositories.
+  const { redirects } = JSON.parse(readFileSync("vercel.json", "utf8"));
+  expect(redirects).toEqual(
+    projects.map((p) => ({
+      source: `/work/${p.slug}`,
+      destination: p.repo,
+      permanent: true,
+    })),
+  );
+  for (const project of projects) {
+    const response = await request.get(`/work/${project.slug}`, { maxRedirects: 0 });
+    expect(response.status()).toBe(308);
+    expect(response.headers().location).toBe(project.repo);
   }
 });
